@@ -1,0 +1,72 @@
+// Convert a string to a number and drops its units.
+// Adapted from Hugo Giraudel's https://hugogiraudel.com/2014/01/15/sass-string-to-number/
+// 
+@function number($string) {
+    $strings: '0' '1' '2' '3' '4' '5' '6' '7' '8' '9';
+    $numbers: 0 1 2 3 4 5 6 7 8 9;
+
+    $result: 0;
+    $minus: false;
+    $divider: 0;
+
+    @for $i from 1 through str-length($string) {
+        $character: str-slice($string, $i, $i);
+        $index: index($strings, $character);
+
+        @if $character == '-' {
+            $minus: true;
+        } @else if $character == '.' {
+            $divider: 1;
+        } @else {
+            @if not $index {
+            @warn "Unknown character `#{$character}`. Ignoring";
+            } @else {
+                $number: nth($numbers, $index);
+
+                // decimal dot hasn't been found yet
+                @if $divider == 0 {
+                    $result: $result * 10;
+                } @else { // decimal dot has been found
+                    // move the decimal dot to the left
+                    $divider: $divider * 10;
+                    $number: $number / $divider;
+                }
+
+
+                $result: $result + $number;
+            }
+        }
+    }
+
+    @return if($minus, $result * -1, $result);
+}
+
+@mixin responsive-interpolate( $attributes, $startValue, $endValue, $leftBreakpoint, $rightBreakpoint, $currentPoint ) {
+    @each $attribute in $attributes{
+        #{$attribute}: $startValue;
+        @media (min-width: $leftBreakpoint) {
+            #{$attribute}: $endWidth;
+        }
+        @media (max-width: $rightBreakpoint) and (min-width: $leftBreakpoint) {
+            $diffWidth: $endWidth - $startValue;
+            $spaceBetweenBreakpoints: $rightBreakpoint - $leftBreakpoint;
+            #{$attribute}: calc(
+                #{$startValue} +
+                (
+                    #{number( #{$diffWidth} + unquote(''))} *
+                    ( ( $currentPoint - #{$leftBreakpoint} ) / #{number(#{$spaceBetweenBreakpoints} + unquote(''))} )
+                )
+            );
+        }
+    }
+}
+
+@mixin responsive-interpolate-x( $attributes, $startValue, $endValue, $leftBreakpoint, $rightBreakpoint ) {
+    @include responsive-interpolate( $attributes, $startValue, $endValue, $leftBreakpoint, $rightBreakpoint, 100vw )
+}
+
+@mixin responsive-interpolate-y( $attributes, $startValue, $endValue, $leftBreakpoint, $rightBreakpoint ) {
+    @include responsive-interpolate( $attributes, $startValue, $endValue, $leftBreakpoint, $rightBreakpoint, 100vh )
+}
+
+
