@@ -45,15 +45,15 @@
     @each $attribute in $attributes{
         #{$attribute}: $startValue;
         @media (min-width: $leftBreakpoint) {
-            #{$attribute}: $endWidth;
+            #{$attribute}: $endValue;
         }
         @media (max-width: $rightBreakpoint) and (min-width: $leftBreakpoint) {
-            $diffWidth: $endWidth - $startValue;
+            $diffValue: $endValue - $startValue;
             $spaceBetweenBreakpoints: $rightBreakpoint - $leftBreakpoint;
             #{$attribute}: calc(
                 #{$startValue} +
                 (
-                    #{number( #{$diffWidth} + unquote(''))} *
+                    #{number( #{$diffValue} + unquote(''))} *
                     ( ( $currentPoint - #{$leftBreakpoint} ) / #{number(#{$spaceBetweenBreakpoints} + unquote(''))} )
                 )
             );
