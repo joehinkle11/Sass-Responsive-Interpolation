@@ -11,10 +11,10 @@ Linear interpolation of any CSS attribute between two breakpoints in SCSS (Sass)
 ```scss
 @import 'responsive-interpolation';
 
-$left-breakpoint 800px;
+$left-breakpoint: 800px;
 $right-breakpoint: 2000px;
 
-$top-breakpoint 800px;
+$top-breakpoint: 800px;
 $bottom-breakpoint: 2000px;
 
 #my-responsive-box {
