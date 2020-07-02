@@ -54,7 +54,7 @@
                 #{$startValue} +
                 (
                     #{number( #{$diffValue} + unquote(''))} *
-                    ( ( $currentPoint - #{$leftBreakpoint} ) / #{number(#{$spaceBetweenBreakpoints} + unquote(''))} )
+                    ( ( #{$currentPoint} - #{$leftBreakpoint} ) / #{number(#{$spaceBetweenBreakpoints} + unquote(''))} )
                 )
             );
         }
