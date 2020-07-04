@@ -20,7 +20,7 @@ $bottom-breakpoint: 2000px;
 #my-responsive-box {
     // This will interpolate the box's width and height to go from 150px to 350px from the left breakpoint
     // to the right breakpoint.
-    @include responsive-interpolate-x( ("width","height"), 150px, 350px, $left-breakpoint, $left-breakpoint );
+    @include responsive-interpolate-x( ("width","height"), 150px, 350px, $left-breakpoint, $right-breakpoint );
 }
 
 #my-responsive-text {
